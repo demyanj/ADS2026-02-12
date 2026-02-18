@@ -24,7 +24,35 @@ public class FiboC {
     long fasterC(long n, int m) {
         //Интуитивно найти решение не всегда просто и
         //возможно потребуется дополнительный поиск информации
-        return -1L;
+        if (m == 1) return 0;
+        if (n <= 1) return n % m;
+        long a = 0;
+        long b = 1;
+        long period = 0;
+        for (long i = 2; i <= 6L * m; i++) {
+            long c = (a + b) % m;
+            a = b;
+            b = c;
+            if (a == 0 && b == 1) {
+                period = i - 1;
+                break;
+            }
+        }
+        if (period == 0) {
+            period = 6L * m;
+        }
+        long reducedN = n % period;
+        if (reducedN == 0) return 0;
+        if (reducedN == 1) return 1;
+        long f0 = 0;
+        long f1 = 1;
+        long fn = 0;
+        for (int i = 2; i <= reducedN; i++) {
+            fn = (f0 + f1) % m;
+            f0 = f1;
+            f1 = fn;
+        }
+        return fn;
     }
 
 
